@@ -1,0 +1,4 @@
+{
+  "extensions_to_delete": [".tmp", ".log", ".bak"],
+  "prefixes_to_delete": ["._", ".DS"]
+}
