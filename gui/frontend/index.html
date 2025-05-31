@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Housekeeper</title>
+    <link rel="stylesheet" href="./src/app.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Housekeeper Changes</h1>
+      <div class="input-box">
+        <button id="select-folder" class="btn">Select Folder</button>
+        <span id="selected-path" class="result">No folder selected</span>
+      </div>
+      <div id="changes-list"></div>
+      <div id="log-output" class="result" style="color: red;"></div>
+    </div>
+    <script src="/wails/ipc.js"></script>
+    <script src="/wails/runtime.js"></script>
+    <script src="./src/main.js"></script>
+  </body>
+</html>
