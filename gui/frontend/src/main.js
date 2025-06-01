@@ -41,45 +41,92 @@ window.onload = function () {
         return;
       }
 
-      // Create list of changes with checkboxes
-      const ul = document.createElement("ul");
-      ul.style.listStyle = "none";
-      ul.style.padding = "0";
+      // Create a table for changes
+      const table = document.createElement("table");
+      table.classList.add("changes-table"); // Add a class for styling
+
+      // Create table header
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+
+      const thCheckbox = document.createElement("th");
+      thCheckbox.textContent = "Select";
+      thCheckbox.style.width = "50px"; // Give some fixed width
+      thCheckbox.style.textAlign = "center";
+      headerRow.appendChild(thCheckbox);
+
+      const thType = document.createElement("th");
+      thType.textContent = "Type";
+      thType.style.width = "120px"; // Fixed width for type
+      headerRow.appendChild(thType);
+
+      const thFile = document.createElement("th");
+      thFile.textContent = "File / Directory";
+      headerRow.appendChild(thFile); // This column will take remaining space
+
+      const thTarget = document.createElement("th");
+      thTarget.textContent = "Target Name";
+      headerRow.appendChild(thTarget);
+
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Create table body
+      const tbody = document.createElement("tbody");
 
       changes.forEach((change, index) => {
-        const li = document.createElement("li");
-        li.className = "result";
-        li.style.marginBottom = "8px";
+        const tr = document.createElement("tr");
+        tr.classList.add("change-item"); // Add a class for row styling
 
+        // Cell for checkbox
+        const tdCheckbox = document.createElement("td");
+        tdCheckbox.style.textAlign = "center";
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = change.selected;
-        checkbox.style.marginRight = "8px";
         checkbox.addEventListener("change", () => {
           change.selected = checkbox.checked;
         });
+        tdCheckbox.appendChild(checkbox);
+        tr.appendChild(tdCheckbox);
 
-        console.log("Change:", JSON.stringify(change));
-        document.getElementById("log-output").textContent = "Change: " + JSON.stringify(change);
-
-        let text = "";
+        // Cell for change type
+        const tdType = document.createElement("td");
+        let typeText = "";
         if (change.type === "delete_file") {
-          text = `[DELETE] ${change.target}`;
+          typeText = "[DELETE]";
         } else if (change.type === "rename_file") {
-          text = `[RENAME] ${change.target} → ${change.newName}`;
+          typeText = "[RENAME]";
         } else if (change.type === "remove_dir") {
-          text = `[REMOVE DIR] ${change.target}`;
+          typeText = "[REMOVE DIR]";
+        } else {
+            typeText = "[UNKNOWN]";
         }
-        if (!text) {
-          text = `[UNKNOWN] ${JSON.stringify(change)}`;
-        }
+        tdType.textContent = typeText;
+        tr.appendChild(tdType);
 
-        li.appendChild(checkbox);
-        li.appendChild(document.createTextNode(text));
-        ul.appendChild(li);
+        // Cell for file path (target)
+        const tdFile = document.createElement("td");
+        const filePathSpan = document.createElement("span"); // Create a span to hold the text
+        filePathSpan.classList.add("file-path-text"); // Add a class for styling
+        filePathSpan.textContent = change.target || "";
+        tdFile.appendChild(filePathSpan); // Append the span to the td
+        tr.appendChild(tdFile);
+
+        // Cell for new name (target name for renames)
+        const tdNewName = document.createElement("td");
+        const newNameSpan = document.createElement("span");
+        newNameSpan.classList.add("file-path-text"); // Apply the class for dynamic fading
+        newNameSpan.textContent = change.newName || ""; // Set the text content
+        tdNewName.appendChild(newNameSpan); 
+        tr.appendChild(tdNewName);
+
+        tbody.appendChild(tr);
       });
 
-      changesList.appendChild(ul);
+      table.appendChild(tbody);
+      changesList.appendChild(table);
+      setTimeout(applyFadeToOverflowingPaths, 0);
     } catch (error) {
       console.error("Error fetching changes:", error);
       changesList.innerHTML =
@@ -88,3 +135,30 @@ window.onload = function () {
     }
   });
 };
+
+/**
+ * Dynamically applies or removes the fade effect and ellipsis
+ * based on whether the file path text overflows its container.
+ * This function should be called after the table is rendered
+ * and whenever the window is resized.
+ */
+function applyFadeToOverflowingPaths() {
+    const allFilePathSpans = document.querySelectorAll(".file-path-text");
+    allFilePathSpans.forEach(span => {
+        // `scrollWidth` is the intrinsic width of the content.
+        // `clientWidth` is the visible width of the element.
+        // These are accurate because `.file-path-text` has `white-space: nowrap;` and `overflow: hidden;`.
+
+        if (span.scrollWidth > span.clientWidth) {
+            // Text overflows: apply the fade and ensure ellipsis is *not* clipped
+            span.classList.add("fade-overflow");
+            span.style.textOverflow = 'ellipsis'; // Explicitly set, as we'll clip otherwise
+        } else {
+            // Text fits: remove the fade and ensure ellipsis is clipped
+            span.classList.remove("fade-overflow");
+            span.style.textOverflow = 'clip'; // Effectively hides the ellipsis if text fits
+        }
+    });
+}
+
+window.addEventListener('resize', applyFadeToOverflowingPaths);
