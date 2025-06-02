@@ -1,0 +1,37 @@
+/* layout.css */
+
+
+
+.result {
+    height: 20px;
+    line-height: 20px;
+    margin: 1.5rem auto;
+    color: #a0a0a0;
+}
+
+#changes-list {
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: transparent;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+#logo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;   /* 15% of viewport width */
+  height: 50vw;  /* keep it square, same as width */
+
+  background-image: url('/images/logo-universal.png'); /* your logo path */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 0.25;
+  pointer-events: none;
+}

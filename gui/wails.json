@@ -9,8 +9,13 @@
   "author": {
     "name": "Bryan Barcelona",
     "email": "131413239+bryanbarcelona@users.noreply.github.com"
-},
+  },
   "wails": {
-    "DevTools": true
+    "DevTools": true,
+    "platform": {
+      "windows": {
+        "frameless": true
+      }
+    }
   }
 }

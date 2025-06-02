@@ -1,0 +1,17 @@
+/* components/input.css */
+.input-box .input {
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    background-color: var(--color-input-bg);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+.input-box .input:hover,
+.input-box .input:focus {
+    background-color: #4a4a4a;
+}

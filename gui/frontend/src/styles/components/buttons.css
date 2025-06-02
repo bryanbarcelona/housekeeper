@@ -1,0 +1,18 @@
+/* components/buttons.css */
+.input-box .btn {
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+    border: none;
+    margin-left: 20px;
+    padding: 0 8px;
+    cursor: pointer;
+    background-color: var(--color-button-bg);
+    color: var(--color-text);
+}
+
+.input-box .btn:hover {
+    background-image: linear-gradient(to top, #666 0%, #777 100%);
+    color: white;
+}

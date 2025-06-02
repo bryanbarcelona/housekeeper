@@ -1,0 +1,90 @@
+/* components/table.css */
+.changes-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    table-layout: fixed;
+    color: var(--color-text);
+}
+
+.changes-table th,
+.changes-table td {
+    padding: 8px;
+    text-align: left;
+}
+
+.changes-table th {
+    font-weight: bold;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.changes-table td:nth-child(1),
+.changes-table th:nth-child(1) {
+    text-align: center;
+    width: 50px;
+}
+
+.changes-table td:nth-child(2),
+.changes-table th:nth-child(2) {
+    text-align: center;
+    width: 50px;
+}
+
+.changes-table td:nth-child(3),
+.changes-table th:nth-child(3) {
+    width: 65%;
+}
+
+.changes-table td:nth-child(4),
+.changes-table th:nth-child(4) {
+    width: 35%;
+}
+
+
+.changes-table tbody tr:hover td {
+   text-shadow: 0 0 2px var(--color-accent);
+   background-color: var(--color-accent-light, rgba(var(--color-accent-rgb), 0.1));
+}
+
+
+.file-path-text {
+  display: flex; /* 👈 switch to flex layout */
+  justify-content: flex-end; /* 👈 aligns content to the right */
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+  position: relative;
+}
+
+.file-path-inner {
+  display: inline-block;
+  flex-shrink: 0; /* 👈 ensures it doesn't shrink */
+  transition: none;
+  transform: translateX(0); /* initial position */
+  min-width: fit-content; /* 👈 only grow as wide as the text */
+  text-align: left;
+}
+
+/* Fade stays applied by JS */
+.fade-overflow {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 50px);
+  mask-image: linear-gradient(to right, transparent, black 50px);
+}
+
+/* Animate the inner span when the outer has both scroll + hover */
+.scrolling:hover .file-path-inner {
+  animation: scrollPath 2s ease-in-out infinite alternate;
+}
+
+/* Keyframes for back-and-forth scroll */
+@keyframes scrollPath {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--scroll-distance, -50px));
+  }
+}
